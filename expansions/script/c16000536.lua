@@ -41,16 +41,16 @@ function c16000536.ctfilter(c)
 	return c:IsType(TYPE_EFFECT)
 end
 function c16000536.costfilter(c)
-    return (c:GetSequence()==6 or c:GetSequence()==7) and c:IsSetCard(0xc50) and c:IsType(TYPE_PENDULUM) and c:IsFaceup()
+	return c:IsSetCard(0xc50) and c:IsType(TYPE_PENDULUM) and c:IsFaceup()
 end
 function c16000536.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then return Duel.IsExistingMatchingCard(c16000536.costfilter,tp,LOCATION_SZONE,0,1,nil) end
-    local g=Duel.GetMatchingGroup(c16000536.costfilter,tp,LOCATION_SZONE,0,nil)
-    Duel.Destroy(g,REASON_COST)
+	if chk==0 then return Duel.IsExistingMatchingCard(c16000536.costfilter,tp,LOCATION_SZONE,0,1,nil) end
+	local g=Duel.GetMatchingGroup(c16000536.costfilter,tp,LOCATION_SZONE,0,nil)
+	Duel.Destroy(g,REASON_COST)
 end
 
 function c16000536.thcon(e,tp,eg,ep,ev,re,r,rp)
-	  return Duel.IsExistingMatchingCard(Card.IsSetCard,tp,LOCATION_PZONE,0,1,e:GetHandler(),0xc50)
+  return Duel.IsExistingMatchingCard(Card.IsSetCard,tp,LOCATION_PZONE,0,1,e:GetHandler(),0xc50)
 end
 function c16000536.filter(c)
 	return  c:IsSetCard(0xc52)  and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand()

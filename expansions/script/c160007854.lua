@@ -66,17 +66,17 @@ function c160007854.synlimit(e,c)
 	return not c:IsSetCard(0xc50)
 end
 function c160007854.costfilter(c)
-    return  c:IsSetCard(0xc50) and c:IsType(TYPE_PENDULUM) and c:IsFaceup()
+	return  c:IsSetCard(0xc50) and c:IsType(TYPE_PENDULUM) and c:IsFaceup()
 end
 function c160007854.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
-    if chk==0 then return Duel.IsExistingMatchingCard(c160007854.costfilter,tp,LOCATION_SZONE,0,1,nil) end
-    local g=Duel.GetMatchingGroup(c160007854.costfilter,tp,LOCATION_SZONE,0,nil)
-    Duel.Destroy(g,REASON_COST)
+	if chk==0 then return Duel.IsExistingMatchingCard(c160007854.costfilter,tp,LOCATION_SZONE,0,1,nil) end
+	local g=Duel.GetMatchingGroup(c160007854.costfilter,tp,LOCATION_SZONE,0,nil)
+	Duel.Destroy(g,REASON_COST)
 end
 
 	
 function c160007854.thcon(e,tp,eg,ep,ev,re,r,rp)
- return Duel.IsExistingMatchingCard(Card.IsSetCard,tp,LOCATION_PZONE,0,1,e:GetHandler(),0xc50)
+	return Duel.IsExistingMatchingCard(Card.IsSetCard,tp,LOCATION_PZONE,0,1,e:GetHandler(),0xc50)
 end
 function c160007854.filter(c)
 	return  not c:IsType(TYPE_EFFECT)and c:IsLevelAbove(2)and c:IsAbleToHand()

@@ -1,6 +1,6 @@
 
 function c160008744.initial_effect(c)
--- c:EnableCounterPermit(0x1075)
+c:EnableCounterPermit(0x1075)
 --Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -118,13 +118,13 @@ function c160008744.ctcon2(e,tp,eg,ep,ev,re,r,rp)
 end
 function c160008744.ctop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=nil
-	for i=1,5 do
+	for i=1,7 do
 		tc=Duel.GetFieldCard(tp,LOCATION_MZONE,i-1)
 		if tc and tc:IsCanAddCounter(0x1075,1) and bit.band(tc:GetType(),0x21)==0x21 and not tc:IsSetCard(0xc50) then
 			tc:AddCounter(0x1075,1)
 		end
 	end
-	for i=1,5 do
+	for i=1,7 do
 		tc=Duel.GetFieldCard(1-tp,LOCATION_MZONE,i-1)
 		if tc and tc:IsCanAddCounter(0x1075,1) and bit.band(tc:GetType(),0x21)==0x21 and not tc:IsSetCard(0xc50) then
 			tc:AddCounter(0x1075,1)
@@ -218,7 +218,7 @@ function c160008744.spcost3(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c160008744.sptg3(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>1 
-		and Duel.IsExistingMatchingCard(c160008744.xxxfilter.filter,tp,LOCATION_HAND,0,1,nil,e,tp) end
+		and Duel.IsExistingMatchingCard(c160008744.xxxfilter.filter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,2,tp,LOCATION_HAND+LOCATION_DECK)
 end
 function c160008744.spop3(e,tp,eg,ep,ev,re,r,rp)

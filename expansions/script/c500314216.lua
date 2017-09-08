@@ -21,6 +21,7 @@ function c500314216.initial_effect(c)
 	e2:SetCode(EVENT_FREE_CHAIN)
 	e2:SetHintTiming(0,TIMING_ATTACK)
 	e2:SetRange(LOCATION_GRAVE)
+e2:SetCondition(c500314216.condition)
 	e2:SetCost(c500314216.cost)
 	e2:SetOperation(c500314216.operation)
 	c:RegisterEffect(e2)
@@ -60,10 +61,27 @@ function c500314216.drop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.Draw(p,ct,REASON_EFFECT)
 	end
 	end
+
+function c500314216.condition(e,tp,eg,ep,ev,re,r,rp)
+	return  (Duel.IsAbleToEnterBP() or (Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE))
+end
 function c500314216.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToRemoveAsCost() end
 	Duel.Remove(e:GetHandler(),POS_FACEUP,REASON_COST)
 end
 function c500314216.operation(e,tp,eg,ep,ev,re,r,rp)
+	if Duel.GetAttacker() then Duel.NegateAttack()
+	else
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+		e1:SetCode(EVENT_ATTACK_ANNOUNCE)
+		e1:SetReset(RESET_PHASE+PHASE_END)
+		e1:SetCountLimit(1)
+		e1:SetOperation(c500314216.disop)
+		Duel.RegisterEffect(e1,tp)
+	end
+end
+function c500314216.disop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.Hint(HINT_CARD,0,500314216)
 	Duel.NegateAttack()
 end
