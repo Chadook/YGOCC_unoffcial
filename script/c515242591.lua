@@ -38,7 +38,7 @@ function c515242591.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetLinkedGroupCount()>=1
 end
 function c515242591.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() end
+	if chkc then return chkc:IsLocation(LOCATION_REMOVED) end
 	if chk==0 then return Duel.IsExistingTarget(aux.TRUE,tp,LOCATION_REMOVED,LOCATION_REMOVED,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectTarget(tp,aux.TRUE,tp,LOCATION_REMOVED,LOCATION_REMOVED,1,1,nil)
@@ -58,13 +58,12 @@ function c515242591.filter2(c)
 	return c:IsType(TYPE_PENDULUM) and c:IsSetCard(0x666)
 end
 function c515242591.sptg2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsOnField() end
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c515242591.filter2(chkc) end
 	if chk==0 then return Duel.IsExistingMatchingCard(c515242591.filter2,tp,LOCATION_GRAVE,0,1,nil) end
 	
 	Duel.SetOperationInfo(0,CATEGORY_HINTMSG_ATOEXTRA,g,1,0,0)
 end
 function c515242591.spop2(e,tp,eg,ep,ev,re,r,rp)
-local hg=Duel.GetFieldGroup(1-tp,LOCATION_HAND,0)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOEXTRA)
 	local g=Duel.SelectMatchingCard(tp,c515242591.filter2,tp,LOCATION_GRAVE,0,1,2,nil)
 	if g:GetCount()>0 then
@@ -72,7 +71,7 @@ local hg=Duel.GetFieldGroup(1-tp,LOCATION_HAND,0)
 	end
 end
 function c515242591.thfilter(c)
-	return c:IsType(TYPE_SPELL)  and c:IsAbleToHand()
+	return c:IsType(TYPE_SPELL) and c:IsSetCard(0x666) and c:IsAbleToHand()
 end
 function c515242591.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c515242591.thfilter,tp,LOCATION_GRAVE,0,1,nil) end
@@ -80,7 +79,7 @@ function c515242591.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c515242591.thop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c515242591.thfilter,tp,LOCATION_GRAVE,0,1,1,nil)
+	local g=Duel.SelectMatchingCard(tp,aux.NecroValleyFilter(c515242591.thfilter),tp,LOCATION_GRAVE,0,1,1,nil)
 	if g:GetCount()>0 then
 		Duel.SendtoHand(g,nil,REASON_EFFECT)
 		Duel.ConfirmCards(1-tp,g)
